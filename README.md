@@ -1,16 +1,17 @@
-![nuxt-icon](https://github.com/nuxt-modules/icon/assets/904724/3e36ab37-bb8c-4cc5-a8fa-55be6993bcfd)
+![nuxt-icon-tw](https://github.com/nuxt-modules/icon/assets/904724/3e36ab37-bb8c-4cc5-a8fa-55be6993bcfd)
 
-# Nuxt Icon
+# Nuxt Icon Tailwind
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
-<a href="https://volta.net/nuxt-modules/icon?utm_source=nuxt_icon_readme"><img src="https://user-images.githubusercontent.com/904724/209143798-32345f6c-3cf8-4e06-9659-f4ace4a6acde.svg" alt="Volta board"></a>
 
 Add [100,000+ ready to use icons](https://icones.js.org) to your [Nuxt](https://nuxt.com) application, based on [Iconify](https://iconify.design).
 
-- [✨ &nbsp;Release Notes](https://github.com/nuxt-modules/icon/releases)
+Uses [Tailwind CSS Icons](https://github.com/egoist/tailwindcss-icons) to load locally
+
+- [✨ &nbsp;Release Notes](https://github.com/jcamp-code/nuxt-icon-tw/releases)
 - [🏀 &nbsp;Online playground](https://stackblitz.com/edit/nuxt-icon-playground?file=app.vue)
 
 ## Features ✨
@@ -22,13 +23,13 @@ Add [100,000+ ready to use icons](https://icones.js.org) to your [Nuxt](https://
 
 ## Setup ⛓️
 
-Add `nuxt-icon` dependency to your project:
+Add `nuxt-icon-tw` dependency to your project:
 
 ```bash
-npm install --save-dev nuxt-icon
+npm install --save-dev nuxt-icon-tw
 
 # Using yarn
-yarn add --dev nuxt-icon
+yarn add --dev nuxt-icon-tw
 ```
 
 Add it to the `modules` array in your `nuxt.config.ts`:
@@ -37,7 +38,7 @@ Add it to the `modules` array in your `nuxt.config.ts`:
 import { defineNuxtConfig } from 'nuxt'
 
 export default defineNuxtConfig({
-  modules: ['nuxt-icon']
+  modules: ['nuxt-icon-tw'],
 })
 ```
 
@@ -48,6 +49,7 @@ That's it, you can now use the `<Icon />` in your components!
 ## Usage 👌
 
 **Props:**
+
 - `name` (required): icon name, emoji or global component name
 - `size`: icon size (default: `1em`)
 
@@ -98,9 +100,9 @@ export default defineAppConfig({
     size: '24px', // default <Icon> size applied
     class: 'icon', // default <Icon> class applied
     aliases: {
-      'nuxt': 'logos:nuxt-icon',
-    }
-  }
+      nuxt: 'logos:nuxt-icon',
+    },
+  },
 })
 ```
 
@@ -121,9 +123,9 @@ export default defineAppConfig({
     // ...
     iconifyApiOptions: {
       url: 'https://<your-api-url>',
-      publicApiFallback: true // default: false
-    }
-  }
+      publicApiFallback: true, // default: false
+    },
+  },
 })
 ```
 
@@ -165,7 +167,6 @@ Note that CSS Masks have limited support, see https://caniuse.com/css-masks for 
 
 Also, the icons won't be loaded on initial load and an HTTP request will be made to Iconify CDN to load them.
 
-
 ## Contributing 🙏
 
 1. Clone this repository
@@ -175,22 +176,23 @@ Also, the icons won't be loaded on initial load and an HTTP request will be made
 
 ## Credits 💌
 
+- Original Nuxt Icon
+- [@egoist](https://github.com/egoist) for his [Tailwind CSS icons plugin](https://github.com/egoist/tailwindcss-icons)
+- My [earlier attempt](https://github.com/jcamp-code/tailwindcss-plugin-icons) at a Tailwind Icons plugin (worked but slowly)
 - [@benjamincanac](https://github.com/benjamincanac) for the initial version
 - [@cyberalien](https://github.com/cyberalien) for making [Iconify](https://github.com/iconify/iconify)
 
 ## License 📎
 
-[MIT License](https://github.com/nuxt-modules/icon/blob/main/LICENSE)
+[MIT License](https://github.com/jcamp-code/nuxt-icon-tw/blob/main/LICENSE)
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/nuxt-icon/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-version-href]: https://npmjs.com/package/nuxt-icon
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-icon.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-downloads-href]: https://npmjs.com/package/nuxt-icon
-
-[license-src]: https://img.shields.io/github/license/nuxt-modules/icon.svg?style=flat&colorA=18181B&colorB=28CF8D
-[license-href]: https://github.com/nuxt-modules/icon/blob/main/LICENSE
-
+[npm-version-src]: https://img.shields.io/npm/v/nuxt-icon-tw/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-version-href]: https://npmjs.com/package/nuxt-icon-tw
+[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-icon-tw.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-href]: https://npmjs.com/package/nuxt-icon-tw
+[license-src]: https://img.shields.io/github/license/jcamp-code/nuxt-icon-tw.svg?style=flat&colorA=18181B&colorB=28CF8D
+[license-href]: https://github.com/jcamp-code/nuxt-icon-tw/blob/main/LICENSE
 [nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js
 [nuxt-href]: https://nuxt.com
