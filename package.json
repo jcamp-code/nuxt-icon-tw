@@ -22,17 +22,21 @@
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "lint": "eslint .",
     "test:types": "vue-tsc --noEmit",
+    "test:tw": "vitest run",
     "prepublishOnly": "pnpm lint",
-    "release": "release-it"
+    "release": "release-it",
+    "gen-types": "node ./src/gen-types.mjs",
+    "prepare": "pnpm run gen-types"
   },
   "dependencies": {
-    "@egoist/tailwindcss-icons": "^1.4.0",
-    "@iconify/utils": "^2.1.4",
+    "@iconify/utils": "^2.1.11",
     "@iconify/vue": "^4.1.1",
     "@nuxt/kit": "^3.8.0"
   },
   "devDependencies": {
+    "@iconify-json/heroicons": "^1.1.9",
     "@iconify/json": "2.2.133",
+    "@iconify/types": "^2.0.0",
     "@nuxt/devtools": "^1.0.0",
     "@nuxt/eslint-config": "^0.2.0",
     "@nuxt/module-builder": "latest",
@@ -40,9 +44,11 @@
     "@types/node": "^20.8.8",
     "eslint": "latest",
     "nuxt": "^3.8.0",
+    "postcss": "^8.4.21",
     "release-it": "^16.2.1",
-    "tailwindcss": "^3.2.6",
-    "typescript": "^5.2.2",
+    "tailwindcss": "3.2.6",
+    "typescript": "4.9.5",
+    "vitest": "0.28.5",
     "vue-tsc": "^1.8.21"
   },
   "peerDependencies": {

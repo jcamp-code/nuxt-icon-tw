@@ -1,6 +1,6 @@
 import { defineNuxtModule, createResolver, addComponent } from '@nuxt/kit'
 import type { Config as TailwindConfig } from 'tailwindcss'
-import { iconsPlugin, getIconCollections } from '@egoist/tailwindcss-icons'
+import { iconsPlugin, getIconCollections } from './tailwindcss-icons'
 
 export interface ModuleOptions {}
 
@@ -75,24 +75,6 @@ export default defineNuxtModule<ModuleOptions>({
                 },
               },
             },
-            forceTailwind: {
-              $default: false,
-              $schema: {
-                title: 'Force Tailwind',
-                description:
-                  'Only set icons using Tailwind CSS Icons. Setting true disables any externally loaded icons.',
-                tsType: 'boolean',
-              },
-            },
-            tailwindSets: {
-              $default: [],
-              $schema: {
-                title: 'Tailwind Sets',
-                description:
-                  'Determine which icon sets to automatically assume are using Tailwind classes.',
-                tsType: 'string[]',
-              },
-            },
           },
         },
       })
@@ -122,12 +104,7 @@ export default defineNuxtModule<ModuleOptions>({
     // @ts-expect-error - hook is handled by nuxtjs/tailwindcss
     nuxt.hook('tailwindcss:config', (config: TailwindConfig) => {
       if (!config.plugins) config.plugins = []
-      config.plugins.push(
-        iconsPlugin({
-          // Select the icon collections you want to use
-          collections: getIconCollections(['mdi', 'uil']),
-        })
-      )
+      config.plugins.push(iconsPlugin())
     })
 
     nuxt.hook('devtools:customTabs', (iframeTabs) => {
