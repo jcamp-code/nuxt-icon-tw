@@ -27,7 +27,8 @@ export type TailwindIconsModuleOptions = {
    * @default `auto`
    *
    */
-  includeAllCollections: true
+  includeAllCollections: boolean
+  resolvedPrefixes?: string[]
 } & IconsPluginOptions
 
 export interface ModuleOptions {}
@@ -42,13 +43,16 @@ export default defineNuxtModule<TailwindIconsModuleOptions>({
     },
   },
   defaults: {
-    force: false,
-    includeAllCollections: true,
+    forceTailwind: false,
+    includeAllCollections: false,
+    resolvedPrefixes: [],
     prefix: 'i',
     scale: 1,
   } as TailwindIconsModuleOptions,
   setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url)
+
+    const twPlugin = iconsPlugin(options)
 
     // setup collections here from config
     nuxt.options.runtimeConfig.public.tailwindIcons = defu(
@@ -114,6 +118,15 @@ export default defineNuxtModule<TailwindIconsModuleOptions>({
                 },
               },
             },
+
+            resolvedPrefixes: {
+              $default: [],
+              $schema: {
+                title: 'Resolved Prefixes',
+                description: 'All of the icon collections loaded by Tailwind.',
+                tsType: 'string[]',
+              },
+            },
           },
         },
       })
@@ -141,8 +154,6 @@ export default defineNuxtModule<TailwindIconsModuleOptions>({
     })
 
     addPlugin(resolve('./runtime/plugin'))
-
-    const twPlugin = iconsPlugin(options)
 
     // @ts-expect-error - hook is handled by nuxtjs/tailwindcss
     nuxt.hook('tailwindcss:config', (config: TailwindConfig) => {

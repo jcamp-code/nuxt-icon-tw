@@ -83,8 +83,6 @@ export const iconsPlugin = (iconsPluginOptions?: IconsPluginOptions) => {
   if (iconsPluginOptions)
     iconsPluginOptions.resolvedPrefixes = collectionPrefixes
 
-  console.log(collectionPrefixes)
-
   const newPlugin = plugin(({ matchComponents }) => {
     matchComponents(twPrefixes, {
       values: components,

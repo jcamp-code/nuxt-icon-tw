@@ -8,9 +8,11 @@
     </p>
     <p class="bg-blue-200">
       Tailwind:
-      <Icon tw name="mdi-abacus" />
-      <Icon tw name="mdi-access-point-minus" size="24" />
+      <Icon name="mdi-abacus" />
+      <Icon name="mdi:abacus" />
+      <Icon name="mdi-access-point-minus" size="24" />
       <Icon tw name="mdi-abjad-arabic" size="48" />
+      <Icon name="logos-adobe-indesign" size="48" />
     </p>
     <p>
       Sizes:
@@ -47,6 +49,8 @@
       Failing:
       <Icon name="uil:bad"> ☀️ </Icon>
       <Icon name="uil:bad" />
+      <Icon tw name="logos-adobe-indesign" size="48" class="border" /> (class
+      not in loaded sets)
     </p>
   </div>
 </template>

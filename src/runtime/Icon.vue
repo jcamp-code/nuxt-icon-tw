@@ -15,7 +15,7 @@ const appConfig = useAppConfig() as {
     class?: string
     aliases?: Record<string, string>
     forceTailwind?: boolean
-    tailwindSets: string[]
+    resolvedPrefixes?: string[]
   }
 }
 
@@ -49,8 +49,9 @@ const useTwIcon = computed(() => {
 
   // tailwind requires the json locally so force specified collections
   if (
-    appConfig.nuxtIcon?.tailwindSets?.find((element) => {
-      return iconName.value.startsWith('i-' + element)
+    appConfig?.nuxtIcon?.resolvedPrefixes?.find((element) => {
+      return iconName.value.startsWith(element)
+      // return iconName.value.startsWith('i-' + element)
     })
   )
     return true
