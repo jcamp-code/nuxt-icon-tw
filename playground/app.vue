@@ -2,15 +2,15 @@
   <div>
     <p class="bg-blue-200">
       Tailwind:
-      <IconTw name="i-mdi-abacus" />
-      <IconTw name="i-mdi-abacus" size="24" />
-      <IconTw name="i-mdi-abacus" size="48" />
+      <IconTw name="mdi-abacus" />
+      <IconTw name="mdi-abacus" size="24" />
+      <IconTw name="mdi-abacus" size="48" />
     </p>
     <p class="bg-blue-200">
       Tailwind:
-      <Icon name="i-mdi-abacus" />
-      <Icon name="i-[mdi-access-point-minus]" size="24" />
-      <Icon name="mdi:abjad-arabic" size="48" />
+      <Icon tw name="mdi-abacus" />
+      <Icon tw name="mdi-access-point-minus" size="24" />
+      <Icon tw name="mdi-abjad-arabic" size="48" />
     </p>
     <p>
       Sizes:

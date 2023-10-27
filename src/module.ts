@@ -1,11 +1,39 @@
-import { defineNuxtModule, createResolver, addComponent } from '@nuxt/kit'
+import {
+  defineNuxtModule,
+  createResolver,
+  addComponent,
+  addPlugin,
+} from '@nuxt/kit'
 import type { Config as TailwindConfig } from 'tailwindcss'
-import { iconsPlugin, getIconCollections } from './tailwindcss-icons'
+import {
+  iconsPlugin,
+  getIconCollections,
+  type IconsPluginOptions,
+} from './tailwindcss-icons'
+import { defu } from 'defu'
+
+export type TailwindIconsModuleOptions = {
+  /**
+   * Only allow tailwind generated icons; do not use icones API to retrieve them
+   *
+   * @default false
+   */
+  tailwindOnly?: boolean
+  /**
+   * auto - installed packages, but not all, then add collections packages
+   * all - global json package, then add collections packages (note this can be slow)
+   * manual - no auto collections, just `collections` packages
+   *
+   * @default `auto`
+   *
+   */
+  includeAllCollections: true
+} & IconsPluginOptions
 
 export interface ModuleOptions {}
 
 // Learn how to create a Nuxt module on https://nuxt.com/docs/guide/going-further/modules/
-export default defineNuxtModule<ModuleOptions>({
+export default defineNuxtModule<TailwindIconsModuleOptions>({
   meta: {
     name: 'nuxt-icon',
     configKey: 'icon',
@@ -13,9 +41,20 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt: '^3.0.0',
     },
   },
-  defaults: {},
-  setup(_options, nuxt) {
+  defaults: {
+    force: false,
+    includeAllCollections: true,
+    prefix: 'i',
+    scale: 1,
+  } as TailwindIconsModuleOptions,
+  setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url)
+
+    // setup collections here from config
+    nuxt.options.runtimeConfig.public.tailwindIcons = defu(
+      nuxt.options.runtimeConfig.public.tailwindIcons as any,
+      options
+    )
 
     // Define types for the app.config compatible with Nuxt Studio
     nuxt.hook('schema:extend', (schemas) => {
@@ -101,10 +140,14 @@ export default defineNuxtModule<ModuleOptions>({
       filePath: resolve('./runtime/IconCSS.vue'),
     })
 
+    addPlugin(resolve('./runtime/plugin'))
+
+    const twPlugin = iconsPlugin(options)
+
     // @ts-expect-error - hook is handled by nuxtjs/tailwindcss
     nuxt.hook('tailwindcss:config', (config: TailwindConfig) => {
       if (!config.plugins) config.plugins = []
-      config.plugins.push(iconsPlugin())
+      config.plugins.push(twPlugin)
     })
 
     nuxt.hook('devtools:customTabs', (iframeTabs) => {
