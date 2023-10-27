@@ -7,12 +7,17 @@
       <IconTw name="mdi-abacus" size="48" />
     </p>
     <p class="bg-blue-200">
-      Tailwind:
+      Automatic:
       <Icon name="mdi-abacus" />
+      <Icon name="i-mdi-abacus" />
       <Icon name="mdi:abacus" />
       <Icon name="mdi-access-point-minus" size="24" />
-      <Icon tw name="mdi-abjad-arabic" size="48" />
-      <Icon name="logos-adobe-indesign" size="48" />
+      <Icon name="mdi-abjad-arabic" size="48" />
+      <Icon name="i-logos-adobe-indesign" size="48" />
+    </p>
+    <p class="bg-blue-200">
+      Custom Icon JSON file:
+      <Icon name="custom-icon1" />
     </p>
     <p>
       Sizes:

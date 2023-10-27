@@ -20,27 +20,32 @@ export type IconCollection = Record<
 >
 
 export type IconsPluginOptions = {
-  customCollections?: string | IconCollection | (IconCollection | string)[]
-  collections?: IconCollection | CollectionNames[]
-  resolvedPrefixes?: string[]
-  includeAllCollections?: boolean
   /**
-   * auto - installed packages, but not all, then add anything in customCollections
-   * all - global json packages, then add customCollections packages (note this can be slow)
-   * none - Iconify collections specified in collections and anything in customCollectinos
-   *
-   * declaring collections will override any auto behavior, like original behavior
-   *
-   * @default `auto`
-   *
+   * Provide any icon files or collections you want to add to the automatically resolved Iconify sets
+   * Can be either single or array of:
+   *   string: resolved paths to icon files
+   *   IconCollection: icon collection object
    */
+  customCollections?: string | IconCollection | (IconCollection | string)[]
+  /**
+   * Specify the Iconify sets you wish to include
+   * Can be:
+   *   IconCollection: entirely override the automation
+   *   CollectionNames[]: specify the sets to include (ie ['mdi', 'ph])
+   *   []: turn off automated resolution altogether
+   *   'all': specifically opt in to loading the full Iconify JSON; warning: can be slow
+   */
+  collections?: IconCollection | CollectionNames[] | 'all'
+  /**
+   * Used to return all the resolved Iconify and custom prefixes
+   */
+  resolvedPrefixes?: string[]
 } & IconsOptions
 
 export const iconsPlugin = (iconsPluginOptions?: IconsPluginOptions) => {
   const {
     collections: propsCollections,
     customCollections = {},
-    includeAllCollections = false,
     scale = 1,
     prefix = 'i',
     extraProperties = {},
@@ -48,7 +53,7 @@ export const iconsPlugin = (iconsPluginOptions?: IconsPluginOptions) => {
 
   const collections = defu(
     {} as IconCollection,
-    getAutoIconCollections(propsCollections, includeAllCollections),
+    getAutoIconCollections(propsCollections),
     getCustomCollections(customCollections)
   )
 
@@ -60,36 +65,38 @@ export const iconsPlugin = (iconsPluginOptions?: IconsPluginOptions) => {
 
   const collectionPrefixes = [] as string[]
 
-  for (const prefix of Object.keys(collections)) {
-    collectionPrefixes.push(prefix)
+  for (const colPrefix of Object.keys(collections)) {
+    collectionPrefixes.push(prefix ? `${prefix}-${colPrefix}` : `${colPrefix}`)
     const collection: IconifyJSONIconsData = {
-      ...collections[prefix],
-      prefix,
+      ...collections[colPrefix],
+      prefix: colPrefix,
     }
     parseIconSet(collection, (name, data) => {
       if (!data) return
-      // components[`${prefix}-${name}`] = generateIconComponent(data, {
-      components[`${name}`] = generateIconComponent(data, {
+      const key = prefix ? `${colPrefix}-${name}` : `${name}`
+      components[key] = generateIconComponent(data, {
         scale,
         extraProperties,
       })
     })
-    twPrefixes[prefix] = (value: string | Record<string, string>) => {
-      if (typeof value === 'string') return components[value]
-      return value
+    if (!prefix) {
+      twPrefixes[colPrefix] = (value: string | Record<string, string>) => {
+        if (typeof value === 'string') return components[value]
+        return value
+      }
     }
   }
 
   if (iconsPluginOptions)
     iconsPluginOptions.resolvedPrefixes = collectionPrefixes
 
-  const newPlugin = plugin(({ matchComponents }) => {
+  const noPrefixPlugin = plugin(({ matchComponents }) => {
     matchComponents(twPrefixes, {
       values: components,
     })
   })
 
-  const original = plugin(({ matchComponents }) => {
+  const prefixPlugin = plugin(({ matchComponents }) => {
     matchComponents(
       {
         [prefix]: (value) => {
@@ -103,5 +110,5 @@ export const iconsPlugin = (iconsPluginOptions?: IconsPluginOptions) => {
     )
   })
 
-  return newPlugin
+  return prefix ? prefixPlugin : noPrefixPlugin
 }

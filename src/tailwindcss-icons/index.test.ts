@@ -1,21 +1,21 @@
-import { test, expect } from "vitest"
-import postcss from "postcss"
-import tailwindcss from "tailwindcss"
-import { getIconCollections, iconsPlugin } from "."
+import { test, expect } from 'vitest'
+import postcss from 'postcss'
+import tailwindcss from 'tailwindcss'
+import { getIconCollections, iconsPlugin } from '.'
 
-test("main", () => {
+test('main', () => {
   const result = postcss([
     tailwindcss({
       config: {
         content: [
           {
             raw: '<span class="i-tabler-plus"><i class="i-mdi-home"></i></span>',
-            extension: "html",
+            extension: 'html',
           },
         ],
         plugins: [
           iconsPlugin({
-            collections: getIconCollections(["mdi", "tabler"]),
+            collections: getIconCollections(['mdi', 'tabler']),
           }),
         ],
       },
@@ -136,14 +136,14 @@ test("main", () => {
   `)
 })
 
-test("custom icon", () => {
+test('custom icon', () => {
   const result = postcss([
     tailwindcss({
       config: {
         content: [
           {
             raw: '<span class="i-foo-home"></span>',
-            extension: "html",
+            extension: 'html',
           },
         ],
         plugins: [
@@ -151,7 +151,7 @@ test("custom icon", () => {
             collections: {
               foo: {
                 icons: {
-                  "arrow-left": {
+                  'arrow-left': {
                     body: '<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>',
                     width: 20,
                     height: 20,
@@ -188,14 +188,14 @@ test("custom icon", () => {
   `)
 })
 
-test("set collection automatically", () => {
+test('set collection automatically', () => {
   const processor = postcss([
     tailwindcss({
       config: {
         content: [
           {
-            raw: "",
-            extension: "html",
+            raw: '',
+            extension: 'html',
           },
         ],
         plugins: [iconsPlugin()],
@@ -230,10 +230,91 @@ test("set collection automatically", () => {
   expect(() => {
     processor.process(`
   .foo {
-    @apply i-mdi-home;
+    @apply i-ph-house;
   }
   `).css
   }).toThrowErrorMatchingInlineSnapshot(
-    '"<css input>:3:5: The `i-mdi-home` class does not exist. If `i-mdi-home` is a custom class, make sure it is defined within a `@layer` directive."',
+    '"<css input>:3:5: The `i-ph-house` class does not exist. If `i-ph-house` is a custom class, make sure it is defined within a `@layer` directive."'
   )
+})
+
+test('load custom json', () => {
+  const processor = postcss([
+    tailwindcss({
+      config: {
+        content: [
+          {
+            raw: '<span class="i-custom-icon1"></span>',
+            extension: 'html',
+          },
+        ],
+        plugins: [
+          iconsPlugin({
+            customCollections: [
+              '../../test/custom.json',
+              {
+                foo: {
+                  icons: {
+                    'arrow-left': {
+                      body: '<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>',
+                      width: 20,
+                      height: 20,
+                    },
+                  },
+                },
+              },
+            ],
+          }),
+        ],
+      },
+    }),
+  ])
+
+  const result = processor.process(`
+.foo {
+  @apply i-custom-icon1;
+}
+`)
+
+  expect(result.css).toMatchInlineSnapshot(`
+    "
+    .foo {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        background-color: currentColor;
+        -webkit-mask-image: var(--svg);
+        mask-image: var(--svg);
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        --svg: url(\\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3L2 12h3v8h5z' fill='black' /%3E%3C/svg%3E\\")
+    }
+    "
+  `)
+
+  const result2 = processor.process(`
+.foo {
+  @apply i-foo-arrow-left;
+}
+`)
+
+  expect(result2.css).toMatchInlineSnapshot(`
+    "
+    .foo {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        background-color: currentColor;
+        -webkit-mask-image: var(--svg);
+        mask-image: var(--svg);
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        --svg: url(\\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' width='20' height='20'%3E%3Cpath fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18'/%3E%3C/svg%3E\\")
+    }
+    "
+    `)
 })

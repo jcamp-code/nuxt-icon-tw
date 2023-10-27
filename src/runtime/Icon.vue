@@ -28,38 +28,19 @@ const iconName = computed(() => {
   return name
 })
 
-// this is tricky as class names have to be scanned by tailwind, so we can't rewrite
 const useTwIcon = computed(() => {
   if (props.tw || appConfig.nuxtIcon?.forceTailwind) return true
-
-  // this just looks like a class
-  if (iconName.value.startsWith('i-')) return true
-
-  // would like to add this but needs a custom version of the plugin
-  // if (iconName.value.startsWith('tw-')) return true
 
   // tailwind can't use : in classes
   if (iconName.value.includes(':')) return false
 
-  // will require custom version of tw icons
-  // Nuxt Icon doesn't support a slash as a collection/name split
-  // if (iconName.value.includes('/')) {
-  //  return true
-  // }
-
-  // tailwind requires the json locally so force specified collections
+  // tailwind requires the json locally so check for loaded prefixes
   if (
     appConfig?.nuxtIcon?.resolvedPrefixes?.find((element) => {
       return iconName.value.startsWith(element)
-      // return iconName.value.startsWith('i-' + element)
     })
   )
     return true
-
-  // will require custom version of tw icons
-  // a format I used in an earlier tool I built
-  // https://github.com/jcamp-code/tailwindcss-plugin-icons
-  // if (iconName.value.match(/^i-\[.*\]$/)) return true
 
   return false
 })

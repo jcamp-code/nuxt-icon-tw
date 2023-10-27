@@ -1,4 +1,4 @@
-![nuxt-icon-tw](https://github.com/nuxt-modules/icon/assets/904724/3e36ab37-bb8c-4cc5-a8fa-55be6993bcfd)
+![nuxt-icon-tw](https://github.com/jcamp-code/nuxt-icon-tw/assets/1094820/de9c24f9-735f-4975-8b1b-5d1766412760)
 
 # Nuxt Icon Tailwind
 
@@ -9,13 +9,16 @@
 
 Add [100,000+ ready to use icons](https://icones.js.org) to your [Nuxt](https://nuxt.com) application, based on [Iconify](https://iconify.design).
 
-Uses [Tailwind CSS Icons](https://github.com/egoist/tailwindcss-icons) to load locally
+Uses [Tailwind CSS Icons](https://github.com/egoist/tailwindcss-icons) to load locally rather than via API calls for each icon
 
-- [✨ &nbsp;Release Notes](https://github.com/jcamp-code/nuxt-icon-tw/releases)
-- [🏀 &nbsp;Online playground](https://stackblitz.com/edit/nuxt-icon-playground?file=app.vue)
+Can add custom collections from JSON files in addition to locally installed Iconify packages
+
+Falls back to API calls for collections not loaded loccally
 
 ## Features ✨
 
+- **Tailwind CSS Icons via Iconify JSON packages**
+- Custom local IconCollection JSON files
 - Nuxt 3 ready
 - Support 100,000 open source vector icons via [Iconify](https://iconify.design)
 - Emoji Support
@@ -26,6 +29,7 @@ Uses [Tailwind CSS Icons](https://github.com/egoist/tailwindcss-icons) to load l
 Add `nuxt-icon-tw` dependency to your project:
 
 ```bash
+# npm
 npm install --save-dev nuxt-icon-tw
 
 # Using yarn
@@ -41,6 +45,24 @@ export default defineNuxtConfig({
   modules: ['nuxt-icon-tw'],
 })
 ```
+
+Install any Iconify JSON packages you want to use via Tailwind CSS:
+
+```bash
+npm install --save-dev @iconify-json/mdi
+
+# Using yarn
+yarn add --dev @iconify-jsom/mdi
+```
+
+These will be picked up automatically by the Tailwind CSS plugin.
+
+`<Icon />` will use Tailwind to load any icons starting with `i-prefix` ie `i-mdi-home`.
+If you use `i-other-icon` and it is a set not installed locally, the icon will fallback to Iconify API SVG loading
+
+Any icons using a `:` divider (ie `i-mdi:home` or `mdi:home`) will remain Iconify SVG since Tailwind does not allow : in classes.
+
+This allows for NuxtIconTw to be a drop in replacement for NuxtIcon if you want to add Tailwind Icons to an existing project (incidentally, this is why I created this)
 
 That's it, you can now use the `<Icon />` in your components!
 
@@ -61,6 +83,12 @@ When using an icon from Iconify, an `<svg>` will be created, you can give [all t
 <Icon name="uil:github" color="black" />
 ```
 
+**Other Components:**:
+
+- `<Icon />` - Automatically set to Tailwind or Iconify SVG based on loaded collections
+- `<IconTw />` - Only creates icon by Tailwind - if the name specified is not loaded, it will be blank
+- `<IconSvg />` - Only creates icon by Iconify Svg - but custom files will not work here
+
 ### Iconify dataset
 
 You can use any name from the https://icones.js.org collection:
@@ -70,6 +98,23 @@ You can use any name from the https://icones.js.org collection:
 ```
 
 It supports the `i-` prefix (for example `i-uil-github`).
+
+### Custom Icon Collections
+
+You can specify locations of custom icon JSON files to have them included in the Tailwind CSS:
+
+```js
+import { createResolver } from '@nuxt/kit'
+
+const { resolve } = createResolver(import.meta.url)
+
+export default defineNuxtConfig({
+  icon: {
+    customCollections: resolve('./custom.json'),
+  },
+  modules: ['nuxt-icon-tw', '@nuxtjs/tailwindcss'],
+})
+```
 
 ### Emoji
 
@@ -84,6 +129,65 @@ It supports the `i-` prefix (for example `i-uil-github`).
 ```
 
 Note that `NuxtIcon` needs to be inside `components/global/` folder (see [example](https://github.com/nuxt-modules/icon/blob/main/playground/components/global/NuxtIcon.vue)).
+
+## Tailwind Icons Configuration
+
+### Prefix
+
+You can specify what prefix you want to use on Tailwind Icons classes. This defaults to `i` for backwards compatibility with other Tailwind Icons plugins.
+However, it can be set empty (`''`) to not require a prefix at all.
+
+### Collections
+
+Specify the Iconify sets you wish to include
+
+- `string[]`:
+
+  ```js
+  export default defineNuxtConfig({
+    icon: {
+      collections: ['mdi', 'ph'],
+    },
+    modules: ['nuxt-icon-tw', '@nuxtjs/tailwindcss'],
+  })
+  ```
+
+- `[]`: turn off automated resolution altogether
+- `'all'`: specifically opt in to loading the full Iconify JSON; warning: can be slow
+
+- `IconCollection`: entirely override the automation
+
+  ```js
+  export default defineNuxtConfig({
+    icon: {
+      collections: {
+        foo: {
+          icons: {
+            'arrow-left': {
+              body: '<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>',
+              width: 20,
+              height: 20,
+            },
+          },
+        },
+      },
+    },
+    modules: ['nuxt-icon-tw', '@nuxtjs/tailwindcss'],
+  })
+  ```
+
+### Force Tailwind
+
+If you should want to only allow Tailwind Icons and no Iconify API icons at all, set this to true.
+
+```js
+export default defineNuxtConfig({
+  icon: {
+    forceTailwind: true,
+  },
+  modules: ['nuxt-icon-tw', '@nuxtjs/tailwindcss'],
+})
+```
 
 ## Configuration ⚙️
 
@@ -151,22 +255,6 @@ const MyIcon = h(Icon, { name: 'uil:twitter' })
 </template>
 ```
 
-## CSS Icons
-
-This is currently experimental and may change in the future, this is a way to use CSS icons instead of SVG icons to reduce the DOM size and improve performance. It is leveraging the Mask combined with background color set to `currentColor`, useful to render monotone icons that use `currentColor` as icon color. Learn more on https://docs.iconify.design/icon-components/css.html
-
-```vue
-<template>
-  <IconCSS name="uil:twitter" />
-</template>
-```
-
-You can use aliases in `<IconCSS>` as well.
-
-Note that CSS Masks have limited support, see https://caniuse.com/css-masks for more information.
-
-Also, the icons won't be loaded on initial load and an HTTP request will be made to Iconify CDN to load them.
-
 ## Contributing 🙏
 
 1. Clone this repository
@@ -176,7 +264,7 @@ Also, the icons won't be loaded on initial load and an HTTP request will be made
 
 ## Credits 💌
 
-- Original Nuxt Icon
+- Original [Nuxt Icon](https://github.com/nuxt-modules/icon)
 - [@egoist](https://github.com/egoist) for his [Tailwind CSS icons plugin](https://github.com/egoist/tailwindcss-icons)
 - My [earlier attempt](https://github.com/jcamp-code/tailwindcss-plugin-icons) at a Tailwind Icons plugin (worked but slowly)
 - [@benjamincanac](https://github.com/benjamincanac) for the initial version

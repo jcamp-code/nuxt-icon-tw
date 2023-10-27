@@ -104,21 +104,21 @@ export const getIconCollections = (
 }
 
 export const getAutoIconCollections = (
-  collections?: IconCollection | CollectionNames[],
-  includeAllCollections?: boolean
+  collections?: IconCollection | CollectionNames[] | 'all'
 ) => {
   if (Array.isArray(collections)) {
     return getIconCollections(collections)
   }
 
   // an actual iconCollection passed here will stop all automatic loading, per original behavior
-  if (collections) return collections
+  if (typeof collections === 'object') return collections
 
-  const names = includeAllCollections
-    ? 'all'
-    : availableCollectionNames.filter((name) =>
-        isPackageExists(`@iconify-json/${name}`)
-      )
+  const names =
+    collections === 'all'
+      ? 'all'
+      : availableCollectionNames.filter((name) =>
+          isPackageExists(`@iconify-json/${name}`)
+        )
 
   return getIconCollections(names)
 }

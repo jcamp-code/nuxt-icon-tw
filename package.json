@@ -1,6 +1,6 @@
 {
   "name": "nuxt-icon-tw",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "type": "module",
   "repository": "nuxt-modules/icon",
@@ -22,7 +22,7 @@
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "lint": "eslint .",
     "test:types": "vue-tsc --noEmit",
-    "test:tw": "vitest run",
+    "test": "vitest run",
     "prepublishOnly": "pnpm lint",
     "release": "release-it",
     "gen-types": "node ./src/gen-types.mjs",

@@ -19,15 +19,6 @@ export type TailwindIconsModuleOptions = {
    * @default false
    */
   tailwindOnly?: boolean
-  /**
-   * auto - installed packages, but not all, then add collections packages
-   * all - global json package, then add collections packages (note this can be slow)
-   * manual - no auto collections, just `collections` packages
-   *
-   * @default `auto`
-   *
-   */
-  includeAllCollections: boolean
   resolvedPrefixes?: string[]
 } & IconsPluginOptions
 
@@ -44,7 +35,6 @@ export default defineNuxtModule<TailwindIconsModuleOptions>({
   },
   defaults: {
     forceTailwind: false,
-    includeAllCollections: false,
     resolvedPrefixes: [],
     prefix: 'i',
     scale: 1,
@@ -118,7 +108,14 @@ export default defineNuxtModule<TailwindIconsModuleOptions>({
                 },
               },
             },
-
+            prefix: {
+              $default: 'i',
+              $schema: {
+                title: 'Tailwind Class Prefix',
+                description:
+                  'Set the Tailwind class prefix; leave bank or null to not use a prefix',
+              },
+            },
             resolvedPrefixes: {
               $default: [],
               $schema: {
