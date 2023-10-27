@@ -133,6 +133,7 @@ export default defineNuxtModule<TailwindIconsModuleOptions>({
       name: 'Icon',
       global: true,
       filePath: resolve('./runtime/Icon.vue'),
+      priority: 10,
     })
     addComponent({
       name: 'IconSvg',
@@ -143,11 +144,6 @@ export default defineNuxtModule<TailwindIconsModuleOptions>({
       name: 'IconTw',
       global: true,
       filePath: resolve('./runtime/IconTw.vue'),
-    })
-    addComponent({
-      name: 'IconCSS',
-      global: true,
-      filePath: resolve('./runtime/IconCSS.vue'),
     })
 
     addPlugin(resolve('./runtime/plugin'))

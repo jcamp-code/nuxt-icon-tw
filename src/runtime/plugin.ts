@@ -1,4 +1,4 @@
-import { defineNuxtPlugin } from '#app'
+import { defineNuxtPlugin, useRuntimeConfig, useAppConfig } from '#app'
 import { defu } from 'defu'
 import type { TailwindIconsModuleOptions } from '../module'
 
@@ -11,5 +11,7 @@ export default defineNuxtPlugin((_nuxtApp) => {
 
   // appConfig overrides module settings in nuxt config, except for resolvedPrefixes
   appConfig.nuxtIcon = defu(options, appConfig.nuxtIcon) as any
-  appConfig.nuxtIcon.resolvedPrefixes = options?.resolvedPrefixes
+
+  if (appConfig.nuxtIcon)
+    appConfig.nuxtIcon.resolvedPrefixes = options?.resolvedPrefixes
 })

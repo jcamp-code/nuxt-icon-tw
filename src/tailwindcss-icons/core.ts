@@ -1,22 +1,13 @@
 import path from 'path'
 import fs from 'fs'
-import type {
-  IconifyIcon,
-  IconifyJSON,
-  IconifyJSONIconsData,
-} from '@iconify/types'
+import type { IconifyIcon, IconifyJSON } from './iconifyTypes'
 import { getIconCSS, getIconData } from '@iconify/utils'
 import { createRequire } from 'module'
 import { availableCollectionNames, type CollectionNames } from '../types'
 import type { GenerateOptions } from './types'
-import type { Optional } from './utils'
 import type { IconCollection } from '.'
 
-declare const TSUP_FORMAT: 'esm' | 'cjs'
-const req =
-  typeof TSUP_FORMAT === 'undefined' || TSUP_FORMAT === 'cjs'
-    ? require
-    : createRequire(import.meta.url)
+const req = createRequire(import.meta.url)
 
 export const localResolve = (cwd: string, id: string) => {
   try {
@@ -165,6 +156,9 @@ export const generateIconComponent = (
     }
     return ''
   })
+
+  Object.assign(rules, { verticalAlign: 'middle' })
+
   if (options.extraProperties) {
     Object.assign(rules, options.extraProperties)
   }

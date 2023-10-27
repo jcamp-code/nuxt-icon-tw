@@ -26,14 +26,14 @@ Falls back to API calls for collections not loaded loccally
 
 ## Setup ⛓️
 
-Add `nuxt-icon-tw` dependency to your project:
+Add `nuxt-icon-tw` dependency to your project (it does require Tailwind of course):
 
 ```bash
 # npm
-npm install --save-dev nuxt-icon-tw
+npm install --save-dev nuxt-icon-tw @nuxtjs/tailwindcss
 
 # Using yarn
-yarn add --dev nuxt-icon-tw
+yarn add --dev nuxt-icon-tw @nuxtjs/tailwindcss
 ```
 
 Add it to the `modules` array in your `nuxt.config.ts`:
@@ -42,7 +42,7 @@ Add it to the `modules` array in your `nuxt.config.ts`:
 import { defineNuxtConfig } from 'nuxt'
 
 export default defineNuxtConfig({
-  modules: ['nuxt-icon-tw'],
+  modules: ['nuxt-icon-tw', '@nuxtjs/tailwindcss'],
 })
 ```
 

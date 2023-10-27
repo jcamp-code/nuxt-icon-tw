@@ -1,4 +1,4 @@
-import type { IconifyJSONIconsData } from '@iconify/types'
+import type { IconifyJSONIconsData } from './iconifyTypes'
 import plugin from 'tailwindcss/plugin.js'
 import { parseIconSet } from '@iconify/utils'
 import {
