@@ -30,6 +30,7 @@ Add `nuxt-icon-tw` dependency to your project (it does require Tailwind of cours
 
 ```bash
 npx nuxi@latest module add icon-tw
+npx nuxi@latest module add tailwindcss
 ```
 
 Add it to the `modules` array in your `nuxt.config.ts`:
