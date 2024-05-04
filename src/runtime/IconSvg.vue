@@ -7,7 +7,7 @@ import { ref, computed, watch } from 'vue'
 import { useAppConfig, useNuxtApp, useState } from '#imports'
 
 const nuxtApp = useNuxtApp()
-const appConfig = useAppConfig() as {
+const appConfig = useAppConfig() as unknown as {
   nuxtIcon: {
     size?: string
     class?: string
