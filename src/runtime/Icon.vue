@@ -9,7 +9,7 @@ const props = defineProps<{
   tw?: boolean
 }>()
 
-const appConfig = useAppConfig() as {
+const appConfig = useAppConfig() as unknown as {
   nuxtIcon: {
     size?: string
     class?: string

@@ -2,13 +2,14 @@
 import { computed } from 'vue'
 import { useAppConfig } from '#imports'
 
-const appConfig = useAppConfig() as {
+const appConfig = useAppConfig() as unknown as {
   nuxtIcon: {
     size?: string
     class?: string
     aliases?: Record<string, string>
   }
 }
+
 
 const props = defineProps({
   name: {
