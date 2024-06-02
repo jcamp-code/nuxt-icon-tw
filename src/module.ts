@@ -34,7 +34,7 @@ export default defineNuxtModule<TailwindIconsModuleOptions>({
     },
   },
   defaults: {
-    forceTailwind: false,
+    tailwindOnly: false,
     resolvedPrefixes: [],
     prefix: 'i',
     scale: 1,
@@ -151,7 +151,7 @@ export default defineNuxtModule<TailwindIconsModuleOptions>({
     // @ts-expect-error - hook is handled by nuxtjs/tailwindcss
     nuxt.hook('tailwindcss:config', (config: TailwindConfig) => {
       if (!config.plugins) config.plugins = []
-      config.plugins.push(twPlugin)
+      config.plugins.push(twPlugin as any)
     })
 
     nuxt.hook('devtools:customTabs', (iframeTabs) => {
