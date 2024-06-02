@@ -29,11 +29,8 @@ Falls back to API calls for collections not loaded locally
 Add `nuxt-icon-tw` dependency to your project (it does require Tailwind of course):
 
 ```bash
-# npm
-npm install --save-dev nuxt-icon-tw @nuxtjs/tailwindcss
-
-# Using yarn
-yarn add --dev nuxt-icon-tw @nuxtjs/tailwindcss
+npx nuxi@latest module add icon-tw
+npx nuxi@latest module add tailwindcss
 ```
 
 Add it to the `modules` array in your `nuxt.config.ts`:
