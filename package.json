@@ -42,7 +42,7 @@
     "@nuxt/devtools": "^1.3.2",
     "@nuxt/eslint-config": "^0.3.13",
     "@nuxt/module-builder": "0.7.0",
-    "@nuxtjs/tailwindcss": "6.11.0",
+    "@nuxtjs/tailwindcss": "npm:@nuxtjs/tailwindcss@nightly",
     "@types/node": "^20.13.0",
     "eslint": "8.57.0",
     "nuxt": "^3.11.2",
