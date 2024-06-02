@@ -1,6 +1,30 @@
 # Changelog
 
 
+## v0.2.0
+
+[compare changes](https://github.com/jcamp-code/nuxt-icon-tw/compare/v0.1.3...v0.2.0)
+
+### 🩹 Fixes
+
+- Various small bugs ([ffd48ba](https://github.com/jcamp-code/nuxt-icon-tw/commit/ffd48ba))
+- Update to nuxt/tailwind 6.12 ([#8](https://github.com/jcamp-code/nuxt-icon-tw/pull/8))
+
+### 📖 Documentation
+
+- Use new `nuxi module add` command in installation ([#5](https://github.com/jcamp-code/nuxt-icon-tw/pull/5))
+
+### 🏡 Chore
+
+- Test bundler module resolution ([#4](https://github.com/jcamp-code/nuxt-icon-tw/pull/4))
+- **linter:** Fix typecheck error ([#6](https://github.com/jcamp-code/nuxt-icon-tw/pull/6))
+- Update dependencies ([a49a0d2](https://github.com/jcamp-code/nuxt-icon-tw/commit/a49a0d2))
+
+### ❤️ Contributors
+
+- Thibaut Mottet ([@moifort](http://github.com/moifort))
+- Daniel Roe ([@danielroe](http://github.com/danielroe))
+
 ## v0.1.3
 
 [compare changes](https://github.com/jcamp-code/nuxt-icon-tw/compare/v0.1.2...v0.1.3)
