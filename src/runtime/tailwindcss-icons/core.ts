@@ -3,7 +3,7 @@ import fs from 'fs'
 import type { IconifyIcon, IconifyJSON } from './iconifyTypes'
 import { getIconCSS, getIconData } from '@iconify/utils'
 import { createRequire } from 'module'
-import { availableCollectionNames, type CollectionNames } from '../types'
+import { availableCollectionNames, type CollectionNames } from '../../types'
 import type { GenerateOptions } from './types'
 import type { IconCollection } from '.'
 
