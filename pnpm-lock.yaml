@@ -43,8 +43,8 @@ importers:
         specifier: 0.7.0
         version: 0.7.0(@nuxt/kit@3.11.2(rollup@4.18.0))(nuxi@3.11.1)(typescript@5.4.5)(vue-tsc@2.0.19(typescript@5.4.5))
       '@nuxtjs/tailwindcss':
-        specifier: npm:@nuxtjs/tailwindcss@nightly
-        version: 6.12.1-1715798143.63a8a8e(rollup@4.18.0)
+        specifier: 6.12.0
+        version: 6.12.0(rollup@4.18.0)
       '@types/node':
         specifier: ^20.13.0
         version: 20.13.0
@@ -972,8 +972,8 @@ packages:
     peerDependencies:
       vue: ^3.3.4
 
-  '@nuxtjs/tailwindcss@6.12.1-1715798143.63a8a8e':
-    resolution: {integrity: sha512-uJ6GKb5vP4fJRsI9+cySjPgnnhvq3BRiHEgYNrSuivXCl1lWc8lyyUjjt+3TSPW4vvLmyCe2mAFtgtOXQjFBfA==}
+  '@nuxtjs/tailwindcss@6.12.0':
+    resolution: {integrity: sha512-vXvEq8z177TQcx0tc10mw3O6T9WeN0iTL8hIKGDfidmr+HKReexJU01aPgHefFrCu4LJB70egYFYnywzB9lMyQ==}
 
   '@octokit/auth-token@4.0.0':
     resolution: {integrity: sha512-tY/msAuJo6ARbK6SPIxZrPBms3xPbfwBrulZe0Wtr/DIY9lje2HeV1uoebShn6mx7SjCHif6EjMvoREj+gZ+SA==}
@@ -7383,7 +7383,7 @@ snapshots:
       - vti
       - vue-tsc
 
-  '@nuxtjs/tailwindcss@6.12.1-1715798143.63a8a8e(rollup@4.18.0)':
+  '@nuxtjs/tailwindcss@6.12.0(rollup@4.18.0)':
     dependencies:
       '@nuxt/kit': 3.11.2(rollup@4.18.0)
       autoprefixer: 10.4.19(postcss@8.4.38)
