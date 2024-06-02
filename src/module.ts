@@ -3,14 +3,16 @@ import {
   createResolver,
   addComponent,
   addPlugin,
+  addTemplate,
 } from '@nuxt/kit'
 import type { Config as TailwindConfig } from 'tailwindcss'
 import {
   iconsPlugin,
   getIconCollections,
   type IconsPluginOptions,
-} from './tailwindcss-icons'
+} from './runtime/tailwindcss-icons'
 import { defu } from 'defu'
+import type { NuxtOptions } from 'nuxt/schema'
 
 export type TailwindIconsModuleOptions = {
   /**
@@ -42,7 +44,20 @@ export default defineNuxtModule<TailwindIconsModuleOptions>({
   setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
-    const twPlugin = iconsPlugin(options)
+    const twConfigTemplate = addTemplate({
+      filename: 'nuxt-icon-tw-plugin-config.ts',
+      write: true,
+      getContents: () => `
+        import { iconsPlugin } from ${JSON.stringify(resolve('./runtime/tailwindcss-icons'))}
+        export default { plugins: [iconsPlugin(${JSON.stringify(options)})] }
+      `
+    })
+
+    nuxt.options.tailwindcss = nuxt.options.tailwindcss ?? {} as NuxtOptions['tailwindcss'];
+    if (!Array.isArray(nuxt.options.tailwindcss?.configPath)) {
+      nuxt.options.tailwindcss!.configPath = [nuxt.options.tailwindcss?.configPath || 'tailwind.config']
+    }
+    (nuxt.options.tailwindcss!.configPath as string[]).unshift(twConfigTemplate.dst)
 
     // setup collections here from config
     nuxt.options.runtimeConfig.public.tailwindIcons = defu(
@@ -147,12 +162,6 @@ export default defineNuxtModule<TailwindIconsModuleOptions>({
     })
 
     addPlugin(resolve('./runtime/plugin'))
-
-    // @ts-expect-error - hook is handled by nuxtjs/tailwindcss
-    nuxt.hook('tailwindcss:config', (config: TailwindConfig) => {
-      if (!config.plugins) config.plugins = []
-      config.plugins.push(twPlugin as any)
-    })
 
     nuxt.hook('devtools:customTabs', (iframeTabs) => {
       iframeTabs.push({

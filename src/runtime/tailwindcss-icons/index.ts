@@ -7,7 +7,7 @@ import {
   getAutoIconCollections,
   getCustomCollections,
 } from './core'
-import { type CollectionNames } from '../types'
+import { type CollectionNames } from '../../types'
 import { type Optional } from './utils'
 import type { IconsOptions } from './types'
 import { defu } from 'defu'
