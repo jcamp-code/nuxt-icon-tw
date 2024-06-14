@@ -32,7 +32,7 @@ export default defineNuxtModule<TailwindIconsModuleOptions>({
     name: 'nuxt-icon-tw',
     configKey: 'icon',
     compatibility: {
-      nuxt: '^3.0.0',
+      nuxt: '>=3.0.0',
     },
   },
   defaults: {
